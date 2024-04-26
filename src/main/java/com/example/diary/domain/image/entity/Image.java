@@ -13,4 +13,5 @@ public class Image {
     @GeneratedValue
     @Column(name = "image_id")
     private Long id; // 고유 식별자
+    private String imageUrl;
 }
