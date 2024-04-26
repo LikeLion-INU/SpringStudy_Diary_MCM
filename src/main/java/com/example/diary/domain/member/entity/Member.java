@@ -13,4 +13,11 @@ public class Member {
     @GeneratedValue
     @Column(name = "member_id")
     private Long id; // 고유 식별자
+    private String memberEmail;
+    private String memberPassword;
+    private String memberName;
+    private String memberBirth;
+    private String memberAddress;
+    private Gender gender;
+    private Mbti mbti;
 }
