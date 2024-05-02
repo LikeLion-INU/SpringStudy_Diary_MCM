@@ -1,4 +1,4 @@
-package com.example.diary.domain.like.entity;
+package com.example.diary.domain.likes.entity;
 
 import com.example.diary.domain.diary.entity.Diary;
 import com.example.diary.domain.member.entity.Member;
@@ -7,10 +7,10 @@ import lombok.Getter;
 
 @Entity
 @Getter
-public class Like {
+public class Likes {
     @Id
     @GeneratedValue
-    @Column(name = "like_id")
+    @Column(name = "likes_id")
     private Long id; // 고유 식별자
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "diary_id")
