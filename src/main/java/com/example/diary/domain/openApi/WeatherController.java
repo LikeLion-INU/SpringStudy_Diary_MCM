@@ -1,5 +1,6 @@
-package com.example.diary.domain.OpenApi;
+package com.example.diary.domain.openApi;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,8 +12,8 @@ import java.net.URL;
 
 @RestController
 public class WeatherController {
-
-    private String key = "84b3aa8d66b95d7753695e0cf431e713";
+    @Value(("${openApi.secret}"))
+    private String key;
 
 //    @GetMapping("/weather/{lon}/{lat}")
     @GetMapping("/weather/{city}")
