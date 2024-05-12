@@ -24,7 +24,7 @@ public class WeatherController {
         try {
             // String APIUrl = "http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=" + key;
 
-            String APIUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + city +"&appid=" + key;
+            String APIUrl = "https://api.openweathermap.org/data/2.5/forecast?lang=kr&units=metric&q=" + city +"&appid=" + key;
 
             URL url = new URL(APIUrl);
 
@@ -45,10 +45,8 @@ public class WeatherController {
             while ((line = bufferedReader.readLine()) != null) {
                 stringBuilder.append(line);
             }
-
             bufferedReader.close();
             urlConnection.disconnect();
-
 
         } catch (Exception e){
             e.printStackTrace();
