@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,8 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class DiaryServiceImpl implements DiaryService {
+    @Value(("${openApi.secret}"))
+    private String key;
     private final DiaryRepository diaryRepository;
 
     //일기 생성
@@ -85,7 +88,7 @@ public class DiaryServiceImpl implements DiaryService {
     public String weather(String city){
         try{
             //OpenAPI call하는 URL
-            String urlstr = "https://api.openweathermap.org/data/2.5/weather?lang=kr&q=incheon&appid=473a8351bc583855162193601a69bdf6";//"https://api.openweathermap.org/data/2.5/forecast?lang=kr&units=metric&q=" + city +"&appid=473a8351bc583855162193601a69bdf6";
+            String urlstr = "https://api.openweathermap.org/data/2.5/weather?lang=kr&q=incheon&appid="+key;//"https://api.openweathermap.org/data/2.5/forecast?lang=kr&units=metric&q=" + city +"&appid=473a8351bc583855162193601a69bdf6";
             URL url = new URL(urlstr);
             BufferedReader bf;
             String line;
