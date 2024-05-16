@@ -1,8 +1,8 @@
 package com.example.diary.controller;
 
-import com.example.diary.dto.DiaryRequestDTO;
-import com.example.diary.dto.DiaryResponseDTO;
-import com.example.diary.service.DiaryServiceImpl;
+import com.example.diary.domain.diary.dto.DiaryRequestDTO;
+import com.example.diary.domain.diary.dto.DiaryResponseDTO;
+import com.example.diary.domain.diary.service.DiaryServiceImpl;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

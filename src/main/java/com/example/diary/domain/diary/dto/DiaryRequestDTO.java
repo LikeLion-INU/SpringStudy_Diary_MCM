@@ -1,4 +1,4 @@
-package com.example.diary.dto;
+package com.example.diary.domain.diary.dto;
 
 import com.example.diary.domain.diary.entity.Diary;
 import com.example.diary.domain.diary.entity.DiaryType;

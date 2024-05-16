@@ -1,9 +1,9 @@
-package com.example.diary.service;
+package com.example.diary.domain.diary.service;
 
 import com.example.diary.domain.diary.entity.Diary;
-import com.example.diary.dto.DiaryRequestDTO;
-import com.example.diary.dto.DiaryResponseDTO;
-import com.example.diary.repository.DiaryRepository;
+import com.example.diary.domain.diary.dto.DiaryRequestDTO;
+import com.example.diary.domain.diary.dto.DiaryResponseDTO;
+import com.example.diary.domain.diary.repository.DiaryRepository;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
