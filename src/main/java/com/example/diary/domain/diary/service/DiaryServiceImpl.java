@@ -37,13 +37,10 @@ public class DiaryServiceImpl implements DiaryService {
     public DiaryResponseDTO.DiaryCreateDTO create(String diaryWeather, DiaryRequestDTO.DiaryCreateDTO diaryCreateDTO, String memberEmail){
         System.out.println(memberEmail);
         Optional<Member> optionalMember = memberRepository.findByMemberEmail(memberEmail);
-        log.info("================================2");
         if(optionalMember.isPresent()){
-            log.info("================================4");
             Member member = optionalMember.get();
             // 1. dto -> enitty로 변환
             Diary diary = new Diary(diaryCreateDTO.getDiaryTitle(),diaryCreateDTO.getDiaryContent(), diaryCreateDTO.getDiaryType(), diaryWeather, member);
-            log.info("================================3");
             // 날씨
             // 2. 레퍼지토리 save
             diaryRepository.save(diary);
@@ -51,7 +48,6 @@ public class DiaryServiceImpl implements DiaryService {
             return new DiaryResponseDTO.DiaryCreateDTO(diary);
         }
         else {
-            log.info("================================5");
             return null;
         }
     }
@@ -61,18 +57,22 @@ public class DiaryServiceImpl implements DiaryService {
     @Transactional
     public DiaryResponseDTO.DiaryUpdateDTO update(Long id, String diaryWeather, DiaryRequestDTO.DiaryUpdateDTO diaryUpdateDTO, String memberEmail){
         Optional<Diary> findDiary = diaryRepository.findById(id);
-        Optional<Member> findMemberId = memberRepository.findByMemberEmail(memberEmail);
-        if(findMemberId.isPresent()){
-            Member member = findMemberId.get();
-            Diary target = new Diary(diaryUpdateDTO.getDiaryTitle(),diaryUpdateDTO.getDiaryContent() ,diaryUpdateDTO.getDiaryType(),diaryWeather,member);
+        Optional<Member> OptionalMember = memberRepository.findByMemberEmail(memberEmail);
+        if(OptionalMember.isPresent()){
+            Member member = OptionalMember.get();
+            Diary target = new Diary(diaryUpdateDTO.getDiaryTitle(),diaryUpdateDTO.getDiaryContent() ,diaryUpdateDTO.getDiaryType(), member);
             if(findDiary.isPresent()){
                 Diary diary = findDiary.get();
                 diary.patch(target);
                 return new DiaryResponseDTO.DiaryUpdateDTO(diary);
             }
-            else return null;
+            else{
+                return null;
+            }
         }
-       else return null;
+        else {
+            return null;
+        }
     }
 
     //일기 삭제

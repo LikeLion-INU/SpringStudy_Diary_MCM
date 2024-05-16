@@ -32,11 +32,16 @@ public class Diary {
         this.diaryWeather = diaryWeather;
         this.member = member;
     }
+    public Diary(String diaryTitle, String diaryContent, DiaryType diaryType, Member member){
+        this.diaryTitle = diaryTitle;
+        this.diaryContent = diaryContent;
+        this.diaryType = diaryType;
+        this.member = member;
+    }
 
     public void patch(Diary diary){
         this.diaryTitle = diary.getDiaryTitle();
         this.diaryContent = diary.getDiaryContent();
         this.diaryType = diary.getDiaryType();
-        this.diaryWeather = diary.getDiaryWeather();
     }
 }
