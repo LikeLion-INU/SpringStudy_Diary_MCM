@@ -22,4 +22,21 @@ public class MemberResponseDTO {
             this.memberGender = member.getMemberGender();
         }
     }
+
+    @Data
+    public static class MemberLoginDTO {
+        private Long id;
+        private String memberEmail;
+        private String memberPassword;
+        private String memberName;
+        private Gender memberGender;
+
+        public MemberLoginDTO(Member member) {
+            this.id = member.getId();
+            this.memberEmail = member.getMemberEmail();
+            this.memberPassword = member.getMemberPassword();
+            this.memberName = member.getMemberName();
+            this.memberGender = member.getMemberGender();
+        }
+    }
 }

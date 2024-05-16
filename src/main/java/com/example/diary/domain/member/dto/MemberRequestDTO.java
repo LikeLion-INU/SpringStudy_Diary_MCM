@@ -16,4 +16,10 @@ public class MemberRequestDTO {
             return new Member(this.memberEmail, this.memberPassword, this.memberName, this.memberGender);
         }
     }
+
+    @Data
+    public static class MemberLoginDTO {
+        private String memberEmail;
+        private String memberPassword;
+    }
 }
