@@ -112,7 +112,7 @@ public class DiaryServiceImpl implements DiaryService {
             String a = obj.get("description").toString();
             bf.close();
             return a;
-        }catch(Exception e){
+        } catch(Exception e){
             System.out.println(e.getMessage());
         }
         return null;

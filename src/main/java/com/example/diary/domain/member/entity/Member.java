@@ -19,5 +19,4 @@ public class Member {
     private String memberBirth;
     private String memberAddress;
     private Gender gender;
-    private Mbti mbti;
 }
