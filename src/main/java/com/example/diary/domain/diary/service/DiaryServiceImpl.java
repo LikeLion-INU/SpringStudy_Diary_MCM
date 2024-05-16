@@ -4,6 +4,8 @@ import com.example.diary.domain.diary.entity.Diary;
 import com.example.diary.domain.diary.dto.DiaryRequestDTO;
 import com.example.diary.domain.diary.dto.DiaryResponseDTO;
 import com.example.diary.domain.diary.repository.DiaryRepository;
+import com.example.diary.domain.member.entity.Member;
+import com.example.diary.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -26,31 +28,40 @@ public class DiaryServiceImpl implements DiaryService {
     @Value(("${openApi.secret}"))
     private String key;
     private final DiaryRepository diaryRepository;
-
+    private final MemberRepository memberRepository;
     //일기 생성
     @Override
     @Transactional
-    public DiaryResponseDTO.DiaryCreateDTO create(String diaryWeather, DiaryRequestDTO.DiaryCreateDTO diaryCreateDTO){
-        // 1. dto -> enitty로 변환
-        Diary diary = new Diary(diaryCreateDTO.getDiaryTitle(),diaryCreateDTO.getDiaryContent(),diaryCreateDTO.getDiaryTime(),diaryCreateDTO.getDiaryType(),diaryWeather);
-        // 날씨
-        // 2. 레퍼지토리 save
-        diaryRepository.save(diary);
-        // 3. dto로 변환 후 return
-        return new DiaryResponseDTO.DiaryCreateDTO(diary);
+    public DiaryResponseDTO.DiaryCreateDTO create(String diaryWeather, DiaryRequestDTO.DiaryCreateDTO diaryCreateDTO, Long id){
+        Optional<Member> memberId = memberRepository.findById(id);
+        if(memberId.isPresent()){
+            Member member = memberId.get();
+            // 1. dto -> enitty로 변환
+            Diary diary = new Diary(diaryCreateDTO.getDiaryTitle(),diaryCreateDTO.getDiaryContent(),diaryCreateDTO.getDiaryTime(),diaryCreateDTO.getDiaryType(),diaryWeather, member);
+            // 날씨
+            // 2. 레퍼지토리 save
+            diaryRepository.save(diary);
+            // 3. dto로 변환 후 return
+            return new DiaryResponseDTO.DiaryCreateDTO(diary);
+        }
+        else return null;
     }
 
     // 일기 수정
     @Override
     @Transactional
-    public DiaryResponseDTO.DiaryUpdateDTO update(Long id, String diaryWeather, DiaryRequestDTO.DiaryUpdateDTO diaryUpdateDTO){
+    public DiaryResponseDTO.DiaryUpdateDTO update(Long id, String diaryWeather, DiaryRequestDTO.DiaryUpdateDTO diaryUpdateDTO, Long memberId){
         Optional<Diary> findDiary = diaryRepository.findById(id);
-        Diary target = new Diary(diaryUpdateDTO.getDiaryTitle(),diaryUpdateDTO.getDiaryContent(),diaryUpdateDTO.getDiaryTime(),diaryUpdateDTO.getDiaryType(),diaryWeather);
-
-        if(findDiary.isPresent()){
-            Diary diary = findDiary.get();
-            diary.patch(target);
-            return new DiaryResponseDTO.DiaryUpdateDTO(diary);
+        Optional<Member> findMemberId = memberRepository.findById(memberId);
+        if(findMemberId.isPresent()){
+            Member member = findMemberId.get();
+            Diary target = new Diary(diaryUpdateDTO.getDiaryTitle(),diaryUpdateDTO.getDiaryContent(),diaryUpdateDTO.getDiaryTime(),diaryUpdateDTO.getDiaryType(),diaryWeather,member);
+            if(findDiary.isPresent()){
+                Diary diary = findDiary.get();
+                diary.patch(target);
+                return new DiaryResponseDTO.DiaryUpdateDTO(diary);
+            }
+            else return null;
         }
        else return null;
     }

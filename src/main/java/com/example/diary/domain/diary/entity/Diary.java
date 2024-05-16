@@ -1,10 +1,7 @@
 package com.example.diary.domain.diary.entity;
 
 import com.example.diary.domain.member.entity.Member;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.time.LocalDate;
@@ -21,15 +18,20 @@ public class Diary {
     private String diaryContent;
     private String diaryWeather;
     private DiaryType diaryType;
+    @ManyToOne
+    @JoinColumn(name="MEMBER_ID")
+    private Member member;
+
 
     protected Diary(){
     }
-    public Diary(String diaryTitle, String diaryContent, LocalDate diaryTime, DiaryType diaryType, String diaryWeather){
+    public Diary(String diaryTitle, String diaryContent, LocalDate diaryTime, DiaryType diaryType, String diaryWeather, Member member){
         this.diaryTitle = diaryTitle;
         this.diaryContent = diaryContent;
         this.diaryTime = diaryTime;
         this.diaryType = diaryType;
         this.diaryWeather = diaryWeather;
+        this.member = member;
     }
 
     public void patch(Diary diary){

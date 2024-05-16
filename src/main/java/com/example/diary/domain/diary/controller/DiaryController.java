@@ -12,20 +12,22 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class DiaryController {
     private final DiaryServiceImpl diaryService;
+    private final HttpSession httpSession;
     //일기 생성
     @PostMapping("/diary/create")
-    public ResponseEntity<?> Create(@RequestBody DiaryRequestDTO.DiaryCreateDTO diaryCreateDTO, HttpSession httpSession){
-        //Long memberId = (Long)httpSession.getAttribute("memberId");
+    public ResponseEntity<?> Create(@RequestBody DiaryRequestDTO.DiaryCreateDTO diaryCreateDTO){
+        Long memberId = (Long)httpSession.getAttribute("memberId");
         //멤버 찾기 지역 가져오기
         String weather = diaryService.weather("incheon");
-        DiaryResponseDTO.DiaryCreateDTO result = diaryService.create(weather, diaryCreateDTO);
+        DiaryResponseDTO.DiaryCreateDTO result = diaryService.create(weather, diaryCreateDTO, memberId);
         return ResponseEntity.ok().body(result);
     }
     //일기 수정
     @PostMapping("/diary/update/{id}")
     public ResponseEntity<?> Update(@RequestBody DiaryRequestDTO.DiaryUpdateDTO diaryUpdateDTO, @PathVariable("id") Long id){
         String weather = diaryService.weather("incheon");
-        DiaryResponseDTO.DiaryUpdateDTO result = diaryService.update(id,weather,diaryUpdateDTO);
+        Long memberId = (Long)httpSession.getAttribute("memerId");
+        DiaryResponseDTO.DiaryUpdateDTO result = diaryService.update(id,weather,diaryUpdateDTO,memberId);
         return ResponseEntity.ok().body(result);
     }
     //일기 삭제
