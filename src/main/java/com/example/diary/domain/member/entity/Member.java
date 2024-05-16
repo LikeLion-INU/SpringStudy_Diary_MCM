@@ -16,7 +16,16 @@ public class Member {
     private String memberEmail;
     private String memberPassword;
     private String memberName;
-    private String memberBirth;
-    private String memberAddress;
-    private Gender gender;
+    private Gender memberGender;
+
+    public Member(String memberEmail, String memberPassword, String memberName, Gender memberGender) {
+        this.memberEmail = memberEmail;
+        this.memberPassword = memberPassword;
+        this.memberName = memberName;
+        this.memberGender = memberGender;
+    }
+
+    protected Member() {
+
+    }
 }
