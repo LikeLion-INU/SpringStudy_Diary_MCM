@@ -1,4 +1,4 @@
-package com.example.diary.controller;
+package com.example.diary.domain.diary.controller;
 
 import com.example.diary.domain.diary.dto.DiaryRequestDTO;
 import com.example.diary.domain.diary.dto.DiaryResponseDTO;
