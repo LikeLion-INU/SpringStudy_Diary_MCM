@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface DiaryService {
     // 일기 생성
-    DiaryResponseDTO.DiaryCreateDTO create(String diaryWeather,DiaryRequestDTO.DiaryCreateDTO diaryCreateDTO, Long id);
+    DiaryResponseDTO.DiaryCreateDTO create(String diaryWeather,DiaryRequestDTO.DiaryCreateDTO diaryCreateDTO, String memberEmail);
     // 일기 수정
-    DiaryResponseDTO.DiaryUpdateDTO update(Long id, String diaryWeather, DiaryRequestDTO.DiaryUpdateDTO diaryUpdateDTO,Long memberId);
+    DiaryResponseDTO.DiaryUpdateDTO update(Long id, String diaryWeather, DiaryRequestDTO.DiaryUpdateDTO diaryUpdateDTO, String memberEmail);
     // 일기 삭제
     String delete(Long id);
     // 일기 조회(전체)

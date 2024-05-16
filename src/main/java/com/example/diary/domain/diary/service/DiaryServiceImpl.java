@@ -7,6 +7,7 @@ import com.example.diary.domain.diary.repository.DiaryRepository;
 import com.example.diary.domain.member.entity.Member;
 import com.example.diary.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -24,6 +25,7 @@ import java.util.Optional;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Slf4j
 public class DiaryServiceImpl implements DiaryService {
     @Value(("${openApi.secret}"))
     private String key;
@@ -32,30 +34,37 @@ public class DiaryServiceImpl implements DiaryService {
     //일기 생성
     @Override
     @Transactional
-    public DiaryResponseDTO.DiaryCreateDTO create(String diaryWeather, DiaryRequestDTO.DiaryCreateDTO diaryCreateDTO, Long id){
-        Optional<Member> memberId = memberRepository.findById(id);
-        if(memberId.isPresent()){
-            Member member = memberId.get();
+    public DiaryResponseDTO.DiaryCreateDTO create(String diaryWeather, DiaryRequestDTO.DiaryCreateDTO diaryCreateDTO, String memberEmail){
+        System.out.println(memberEmail);
+        Optional<Member> optionalMember = memberRepository.findByMemberEmail(memberEmail);
+        log.info("================================2");
+        if(optionalMember.isPresent()){
+            log.info("================================4");
+            Member member = optionalMember.get();
             // 1. dto -> enitty로 변환
-            Diary diary = new Diary(diaryCreateDTO.getDiaryTitle(),diaryCreateDTO.getDiaryContent(),diaryCreateDTO.getDiaryTime(),diaryCreateDTO.getDiaryType(),diaryWeather, member);
+            Diary diary = new Diary(diaryCreateDTO.getDiaryTitle(),diaryCreateDTO.getDiaryContent(), diaryCreateDTO.getDiaryType(), diaryWeather, member);
+            log.info("================================3");
             // 날씨
             // 2. 레퍼지토리 save
             diaryRepository.save(diary);
             // 3. dto로 변환 후 return
             return new DiaryResponseDTO.DiaryCreateDTO(diary);
         }
-        else return null;
+        else {
+            log.info("================================5");
+            return null;
+        }
     }
 
     // 일기 수정
     @Override
     @Transactional
-    public DiaryResponseDTO.DiaryUpdateDTO update(Long id, String diaryWeather, DiaryRequestDTO.DiaryUpdateDTO diaryUpdateDTO, Long memberId){
+    public DiaryResponseDTO.DiaryUpdateDTO update(Long id, String diaryWeather, DiaryRequestDTO.DiaryUpdateDTO diaryUpdateDTO, String memberEmail){
         Optional<Diary> findDiary = diaryRepository.findById(id);
-        Optional<Member> findMemberId = memberRepository.findById(memberId);
+        Optional<Member> findMemberId = memberRepository.findByMemberEmail(memberEmail);
         if(findMemberId.isPresent()){
             Member member = findMemberId.get();
-            Diary target = new Diary(diaryUpdateDTO.getDiaryTitle(),diaryUpdateDTO.getDiaryContent(),diaryUpdateDTO.getDiaryTime(),diaryUpdateDTO.getDiaryType(),diaryWeather,member);
+            Diary target = new Diary(diaryUpdateDTO.getDiaryTitle(),diaryUpdateDTO.getDiaryContent() ,diaryUpdateDTO.getDiaryType(),diaryWeather,member);
             if(findDiary.isPresent()){
                 Diary diary = findDiary.get();
                 diary.patch(target);

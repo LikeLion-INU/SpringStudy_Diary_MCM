@@ -25,10 +25,9 @@ public class Diary {
 
     protected Diary(){
     }
-    public Diary(String diaryTitle, String diaryContent, LocalDate diaryTime, DiaryType diaryType, String diaryWeather, Member member){
+    public Diary(String diaryTitle, String diaryContent, DiaryType diaryType, String diaryWeather, Member member){
         this.diaryTitle = diaryTitle;
         this.diaryContent = diaryContent;
-        this.diaryTime = diaryTime;
         this.diaryType = diaryType;
         this.diaryWeather = diaryWeather;
         this.member = member;
@@ -37,7 +36,6 @@ public class Diary {
     public void patch(Diary diary){
         this.diaryTitle = diary.getDiaryTitle();
         this.diaryContent = diary.getDiaryContent();
-        this.diaryTime = diary.getDiaryTime();
         this.diaryType = diary.getDiaryType();
         this.diaryWeather = diary.getDiaryWeather();
     }

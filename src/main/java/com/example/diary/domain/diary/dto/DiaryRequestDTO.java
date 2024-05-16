@@ -16,7 +16,6 @@ public class DiaryRequestDTO {
     public static class DiaryCreateDTO{
         private String diaryTitle;
         private String diaryContent;
-        private LocalDate diaryTime;
         //private String imageUrl;
         private DiaryType diaryType;
 
@@ -29,7 +28,6 @@ public class DiaryRequestDTO {
     public static class DiaryUpdateDTO{
         private String diaryTitle;
         private String diaryContent;
-        private LocalDate diaryTime;
         private DiaryType diaryType;
     }
 

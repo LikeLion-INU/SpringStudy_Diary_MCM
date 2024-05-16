@@ -50,7 +50,8 @@ public class MemberServiceImpl implements MemberService {
             if(!optionalMember.isPresent()) {
                 throw new CustomException(ErrorCode.USER_NOT_FOUND);
             }
-            session.setAttribute("userEmail", memberLoginDTO.getMemberEmail());
+            session.setAttribute("memberEmail", memberLoginDTO.getMemberEmail());
+            System.out.println("login : " + session.getAttribute("memberEmail"));
             return new MemberResponseDTO.MemberLoginDTO(optionalMember.get());
 
         } catch (CustomException ce){

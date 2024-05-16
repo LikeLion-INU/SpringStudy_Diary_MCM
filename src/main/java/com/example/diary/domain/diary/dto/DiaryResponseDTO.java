@@ -17,7 +17,6 @@ public class DiaryResponseDTO {
         private Long diaryId;
         private String diaryTitle;
         private String diaryContent;
-        private LocalDate diaryTime;
         private Long imageId;
         private String imageUrl;
         private DiaryType diaryType;
@@ -27,7 +26,6 @@ public class DiaryResponseDTO {
             this.diaryId = diary.getId();
             this.diaryTitle = diary.getDiaryTitle();
             this.diaryContent = diary.getDiaryContent();
-            this.diaryTime = diary.getDiaryTime();
             this.diaryType = diary.getDiaryType();
             this.diaryWeather = diary.getDiaryWeather();
         }
@@ -36,14 +34,12 @@ public class DiaryResponseDTO {
     public static class DiaryUpdateDTO{
         private String diaryTitle;
         private String diaryContent;
-        private LocalDate diaryTime;
         private DiaryType diaryType;
         private String diaryWeather;
 
         public DiaryUpdateDTO(Diary diary){
             this.diaryTitle = diary.getDiaryTitle();
             this.diaryContent = diary.getDiaryContent();
-            this.diaryTime = diary.getDiaryTime();
             this.diaryType = diary.getDiaryType();
             this.diaryWeather = diary.getDiaryWeather();
         }
@@ -56,7 +52,6 @@ public class DiaryResponseDTO {
     public static class DiaryFindOneDTO{
         private String diaryTitle;
         private String diaryContent;
-        private LocalDate diaryTime;
         private DiaryType diaryType;
         private String diaryWeather;
 
@@ -64,7 +59,6 @@ public class DiaryResponseDTO {
             this.diaryTitle = diary.getDiaryTitle();
             this.diaryContent = diary.getDiaryContent();
             this.diaryType = diary.getDiaryType();
-            this.diaryTime = diary.getDiaryTime();
             this.diaryWeather = diary.getDiaryWeather();
         }
     }

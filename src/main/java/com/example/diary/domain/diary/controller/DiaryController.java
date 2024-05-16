@@ -5,29 +5,30 @@ import com.example.diary.domain.diary.dto.DiaryResponseDTO;
 import com.example.diary.domain.diary.service.DiaryServiceImpl;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class DiaryController {
     private final DiaryServiceImpl diaryService;
     private final HttpSession httpSession;
     //일기 생성
     @PostMapping("/diary/create")
-    public ResponseEntity<?> Create(@RequestBody DiaryRequestDTO.DiaryCreateDTO diaryCreateDTO){
-        Long memberId = (Long)httpSession.getAttribute("memberId");
-        //멤버 찾기 지역 가져오기
+    public ResponseEntity<?> Create(@RequestBody DiaryRequestDTO.DiaryCreateDTO diaryCreateDTO, HttpSession session){
+        String memberEmail = (String) session.getAttribute("memberEmail");
         String weather = diaryService.weather("incheon");
-        DiaryResponseDTO.DiaryCreateDTO result = diaryService.create(weather, diaryCreateDTO, memberId);
+        DiaryResponseDTO.DiaryCreateDTO result = diaryService.create(weather, diaryCreateDTO, memberEmail);
         return ResponseEntity.ok().body(result);
     }
     //일기 수정
     @PostMapping("/diary/update/{id}")
-    public ResponseEntity<?> Update(@RequestBody DiaryRequestDTO.DiaryUpdateDTO diaryUpdateDTO, @PathVariable("id") Long id){
+    public ResponseEntity<?> Update(@RequestBody DiaryRequestDTO.DiaryUpdateDTO diaryUpdateDTO, @PathVariable("id") Long id, HttpSession session){
+        String memberEmail = (String) session.getAttribute("memberEmail");
         String weather = diaryService.weather("incheon");
-        Long memberId = (Long)httpSession.getAttribute("memerId");
-        DiaryResponseDTO.DiaryUpdateDTO result = diaryService.update(id,weather,diaryUpdateDTO,memberId);
+        DiaryResponseDTO.DiaryUpdateDTO result = diaryService.update(id,weather,diaryUpdateDTO,memberEmail);
         return ResponseEntity.ok().body(result);
     }
     //일기 삭제
