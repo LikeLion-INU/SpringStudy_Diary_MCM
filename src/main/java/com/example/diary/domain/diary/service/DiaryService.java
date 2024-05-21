@@ -4,11 +4,12 @@ import com.example.diary.domain.diary.entity.Diary;
 import com.example.diary.domain.diary.dto.DiaryRequestDTO;
 import com.example.diary.domain.diary.dto.DiaryResponseDTO;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface DiaryService {
     // 일기 생성
-    DiaryResponseDTO.DiaryCreateDTO create(String diaryWeather,DiaryRequestDTO.DiaryCreateDTO diaryCreateDTO, String memberEmail);
+    DiaryResponseDTO.DiaryCreateDTO create(String diaryWeather,DiaryRequestDTO.DiaryCreateDTO diaryCreateDTO, String memberEmail) throws IOException;
     // 일기 수정
     DiaryResponseDTO.DiaryUpdateDTO update(Long id, String diaryWeather, DiaryRequestDTO.DiaryUpdateDTO diaryUpdateDTO, String memberEmail);
     // 일기 삭제

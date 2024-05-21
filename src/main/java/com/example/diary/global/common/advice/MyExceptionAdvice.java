@@ -20,9 +20,9 @@ public class MyExceptionAdvice {
         return new ResponseEntity<>(e.body(), e.status());
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> unknownServerError(Exception e){
-        ApiResponse<String> response = ApiResponse.ERROR(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Unknown ServerError");
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity<?> unknownServerError(Exception e){
+//        ApiResponse<String> response = ApiResponse.ERROR(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Unknown ServerError");
+//        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
 }

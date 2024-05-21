@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cglib.core.Local;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 
@@ -16,12 +17,8 @@ public class DiaryRequestDTO {
     public static class DiaryCreateDTO{
         private String diaryTitle;
         private String diaryContent;
-        //private String imageUrl;
         private DiaryType diaryType;
-
-//        public Diary toEntity(){
-//            return new Diary(this.diaryTitle, this.diaryContent, this.diaryTime, this.diaryType);
-//        }
+        private MultipartFile diaryImage;
     }
 
     @Data

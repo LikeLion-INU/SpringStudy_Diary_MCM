@@ -1,11 +1,17 @@
 package com.example.diary.domain.diary.service;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.example.diary.domain.diary.entity.Diary;
 import com.example.diary.domain.diary.dto.DiaryRequestDTO;
 import com.example.diary.domain.diary.dto.DiaryResponseDTO;
 import com.example.diary.domain.diary.repository.DiaryRepository;
+import com.example.diary.domain.image.dto.ImageResponseDTO;
+import com.example.diary.domain.image.service.ImageServiceImpl;
 import com.example.diary.domain.member.entity.Member;
 import com.example.diary.domain.member.repository.MemberRepository;
+import com.example.diary.global.common.exception.CustomException;
+import com.example.diary.global.common.reponse.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
@@ -14,8 +20,10 @@ import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.List;
@@ -31,25 +39,41 @@ public class DiaryServiceImpl implements DiaryService {
     private String key;
     private final DiaryRepository diaryRepository;
     private final MemberRepository memberRepository;
+
+    private final AmazonS3 amazonS3;
+
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
     //일기 생성
     @Override
     @Transactional
-    public DiaryResponseDTO.DiaryCreateDTO create(String diaryWeather, DiaryRequestDTO.DiaryCreateDTO diaryCreateDTO, String memberEmail){
-        System.out.println(memberEmail);
+    public DiaryResponseDTO.DiaryCreateDTO create(String diaryWeather, DiaryRequestDTO.DiaryCreateDTO diaryCreateDTO, String memberEmail) throws IOException {
         Optional<Member> optionalMember = memberRepository.findByMemberEmail(memberEmail);
-        if(optionalMember.isPresent()){
-            Member member = optionalMember.get();
-            // 1. dto -> enitty로 변환
-            Diary diary = new Diary(diaryCreateDTO.getDiaryTitle(),diaryCreateDTO.getDiaryContent(), diaryCreateDTO.getDiaryType(), diaryWeather, member);
-            // 날씨
-            // 2. 레퍼지토리 save
-            diaryRepository.save(diary);
-            // 3. dto로 변환 후 return
-            return new DiaryResponseDTO.DiaryCreateDTO(diary);
+        if(!optionalMember.isPresent()){
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
         }
-        else {
-            return null;
+        Member member = optionalMember.get();
+        MultipartFile diaryImg = diaryCreateDTO.getDiaryImage();
+        String imgURL = "null";
+        if(!diaryImg.isEmpty()) {
+            imgURL = upload(diaryImg);
         }
+        Diary diary = new Diary(diaryCreateDTO.getDiaryTitle(), diaryCreateDTO.getDiaryContent(), diaryWeather, diaryCreateDTO.getDiaryType(), imgURL, member);
+        diaryRepository.save(diary);
+        return new DiaryResponseDTO.DiaryCreateDTO(diary);
+    }
+
+    private String upload(MultipartFile diaryImg) throws IOException {
+            String originalFilename = diaryImg.getOriginalFilename();
+
+            ObjectMetadata metadata = new ObjectMetadata();
+            metadata.setContentLength(diaryImg.getSize());
+            metadata.setContentType(diaryImg.getContentType());
+
+            amazonS3.putObject(bucket, originalFilename, diaryImg.getInputStream(), metadata);
+            String imgURl = amazonS3.getUrl(bucket, originalFilename).toString();
+            return imgURl;
+
     }
 
     // 일기 수정

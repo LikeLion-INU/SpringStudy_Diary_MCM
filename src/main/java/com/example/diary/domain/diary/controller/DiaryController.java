@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController
 @RequiredArgsConstructor
 @Slf4j
@@ -17,7 +19,7 @@ public class DiaryController {
     private final HttpSession httpSession;
     //일기 생성
     @PostMapping("/diary/create")
-    public ResponseEntity<?> Create(@RequestBody DiaryRequestDTO.DiaryCreateDTO diaryCreateDTO, HttpSession session){
+    public ResponseEntity<?> Create(@ModelAttribute DiaryRequestDTO.DiaryCreateDTO diaryCreateDTO, HttpSession session) throws IOException {
         String memberEmail = (String) session.getAttribute("memberEmail");
         String weather = diaryService.weather("incheon");
         DiaryResponseDTO.DiaryCreateDTO result = diaryService.create(weather, diaryCreateDTO, memberEmail);
