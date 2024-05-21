@@ -16,12 +16,9 @@ public enum ErrorCode {
     BLACKLIST_TOKEN(403, "블랙 리스트에 존재하는 토큰입니다."),
 
     USER_NOT_FOUND(404, "존재하지 않는 회원입니다."),
-    FRIEND_NOT_FOUND(404, "존재하지 않는 친구입니다."),
-    CHATROOM_NOT_FOUND(404, "존재하지 않는 채팅방입니다."),
-    CHATROOM_RELATION_NOT_FOUND(404, "존재하지 않는 채팅 관계입니다."),
-    LOCATION_NOT_FOUND(404, "존재하지 않는 위치입니다."),
-    MESSAGE_NOT_FOUND(404, "존재하지 않는 메세지입니다."),
-    REFRESH_NOT_FOUND(404, "존재하지 않는 RefreshToken입니다."),
+
+    DIARY_NOT_FOUND(404, "존재하지 않는 일기입니다."),
+
 
     USER_EXIST(409, "이미 가입된 이메일입니다."),
     FRIEND_EXIST(409, "이미 친구입니다."),

@@ -1,9 +1,8 @@
 package com.example.diary.domain.image.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.example.diary.domain.diary.entity.Diary;
+import com.example.diary.domain.member.entity.Member;
+import jakarta.persistence.*;
 import lombok.Getter;
 
 @Entity
@@ -14,4 +13,14 @@ public class Image {
     @Column(name = "image_id")
     private Long id; // 고유 식별자
     private String imageUrl;
+    @ManyToOne
+    @JoinColumn(name="diary_id")
+    private Diary diary;
+
+    protected Image() {
+    }
+    public Image(String imgURL, Diary diary) {
+        this.imageUrl = imgURL;
+        this.diary = diary;
+    }
 }

@@ -6,8 +6,8 @@ import com.example.diary.domain.diary.entity.Diary;
 import com.example.diary.domain.diary.dto.DiaryRequestDTO;
 import com.example.diary.domain.diary.dto.DiaryResponseDTO;
 import com.example.diary.domain.diary.repository.DiaryRepository;
-import com.example.diary.domain.image.dto.ImageResponseDTO;
-import com.example.diary.domain.image.service.ImageServiceImpl;
+import com.example.diary.domain.image.entity.Image;
+import com.example.diary.domain.image.repository.ImageRepository;
 import com.example.diary.domain.member.entity.Member;
 import com.example.diary.domain.member.repository.MemberRepository;
 import com.example.diary.global.common.exception.CustomException;
@@ -26,6 +26,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,6 +40,7 @@ public class DiaryServiceImpl implements DiaryService {
     private String key;
     private final DiaryRepository diaryRepository;
     private final MemberRepository memberRepository;
+    private final ImageRepository imageRepository;
 
     private final AmazonS3 amazonS3;
 
@@ -49,18 +51,28 @@ public class DiaryServiceImpl implements DiaryService {
     @Transactional
     public DiaryResponseDTO.DiaryCreateDTO create(String diaryWeather, DiaryRequestDTO.DiaryCreateDTO diaryCreateDTO, String memberEmail) throws IOException {
         Optional<Member> optionalMember = memberRepository.findByMemberEmail(memberEmail);
-        if(!optionalMember.isPresent()){
+        if (!optionalMember.isPresent()) {
             throw new CustomException(ErrorCode.USER_NOT_FOUND);
         }
         Member member = optionalMember.get();
-        MultipartFile diaryImg = diaryCreateDTO.getDiaryImage();
-        String imgURL = "null";
-        if(!diaryImg.isEmpty()) {
-            imgURL = upload(diaryImg);
-        }
-        Diary diary = new Diary(diaryCreateDTO.getDiaryTitle(), diaryCreateDTO.getDiaryContent(), diaryWeather, diaryCreateDTO.getDiaryType(), imgURL, member);
+
+        Diary diary = new Diary(diaryCreateDTO.getDiaryTitle(), diaryCreateDTO.getDiaryContent(), diaryWeather, diaryCreateDTO.getDiaryType(), member);
         diaryRepository.save(diary);
-        return new DiaryResponseDTO.DiaryCreateDTO(diary);
+
+        List<MultipartFile> diaryImageList = diaryCreateDTO.getDiaryImages();
+        List<String> imgUrlList = new ArrayList<>();
+        if (diaryImageList != null && !diaryImageList.isEmpty()) {  // Null 체크와 비어있는지 확인
+            for (MultipartFile imageFile : diaryImageList) {
+                if (imageFile != null && !imageFile.isEmpty()) {
+                    String imgUrl = upload(imageFile);
+                    imgUrlList.add(imgUrl);
+                    Image image = new Image(imgUrl, diary);
+                    imageRepository.save(image);
+                }
+            }
+        }
+
+        return new DiaryResponseDTO.DiaryCreateDTO(diary, imgUrlList);
     }
 
     private String upload(MultipartFile diaryImg) throws IOException {
@@ -117,13 +129,12 @@ public class DiaryServiceImpl implements DiaryService {
     //일기 조회(하나)
     @Override
     @Transactional
-    public DiaryResponseDTO.DiaryFindOneDTO findOne(Long id){
-        Optional<Diary> result = diaryRepository.findById(id);
-        if(result.isPresent()){
-            Diary diary = result.get();
-            return new DiaryResponseDTO.DiaryFindOneDTO(diary);
+    public DiaryResponseDTO.DiaryFindOneDTO findOne(Long diaryId){
+        Optional<Diary> findDiaryId = diaryRepository.findById(diaryId);
+        if(!findDiaryId.isPresent()) {
+            throw new CustomException(ErrorCode.DIARY_NOT_FOUND);
         }
-        else return null;
+        return diaryRepository.findOne(diaryId);
     }
 
     //날씨

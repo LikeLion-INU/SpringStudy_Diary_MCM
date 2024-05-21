@@ -9,25 +9,26 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 public class DiaryResponseDTO {
     @Data
-    public static class DiaryCreateDTO{
+    public static class DiaryCreateDTO {
         private Long diaryId;
         private String diaryTitle;
         private String diaryContent;
-        private String imageUrl;
         private DiaryType diaryType;
         private String diaryWeather;
+        private List<String> diaryImages; // 이미지 URL 목록을 저장할 필드 추가
 
-        public DiaryCreateDTO(Diary diary) {
+        public DiaryCreateDTO(Diary diary, List<String> diaryImages) {
             this.diaryId = diary.getId();
             this.diaryTitle = diary.getDiaryTitle();
             this.diaryContent = diary.getDiaryContent();
-            this.imageUrl = diary.getImgURL();
             this.diaryType = diary.getDiaryType();
             this.diaryWeather = diary.getDiaryWeather();
+            this.diaryImages = diaryImages; // 생성자를 통해 이미지 URL 목록 초기화
         }
     }
     @Data
@@ -44,25 +45,21 @@ public class DiaryResponseDTO {
             this.diaryWeather = diary.getDiaryWeather();
         }
     }
-//    @Data
-//    public static class DiaryFindAllDTO{
-//
-//    }
     @Data
     public static class DiaryFindOneDTO{
     private Long diaryId;
     private String diaryTitle;
     private String diaryContent;
-    private String imageUrl;
     private DiaryType diaryType;
     private String diaryWeather;
-        public DiaryFindOneDTO(Diary diary){
+    private List<String> diaryImages;
+        public DiaryFindOneDTO(Diary diary, List<String> diaryImages) {
             this.diaryId = diary.getId();
             this.diaryTitle = diary.getDiaryTitle();
             this.diaryContent = diary.getDiaryContent();
-            this.imageUrl = diary.getImgURL();
             this.diaryType = diary.getDiaryType();
             this.diaryWeather = diary.getDiaryWeather();
+            this.diaryImages = diaryImages;
         }
     }
 }

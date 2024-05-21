@@ -4,6 +4,8 @@ import com.example.diary.domain.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+import java.util.List;
+
 @Entity
 @Getter
 public class Diary {
@@ -15,7 +17,6 @@ public class Diary {
     private String diaryContent;
     private String diaryWeather;
     private DiaryType diaryType;
-    private String imgURL;
     @ManyToOne
     @JoinColumn(name="member_id")
     private Member member;
@@ -31,12 +32,12 @@ public class Diary {
         this.member = member;
     }
 
-    public Diary(String diaryTitle, String diaryContent, String diaryWeather, DiaryType diaryType, String imgURL, Member member) {
+
+    public Diary(String diaryTitle, String diaryContent, String diaryWeather, DiaryType diaryType, Member member) {
         this.diaryTitle = diaryTitle;
         this.diaryContent = diaryContent;
         this.diaryWeather = diaryWeather;
         this.diaryType = diaryType;
-        this.imgURL = imgURL;
         this.member = member;
     }
 
