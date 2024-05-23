@@ -20,4 +20,12 @@ public class Likes {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    protected Likes(){
+    }
+
+    public Likes(Diary diary, Member member){
+        this.diary = diary;
+        this.member = member;
+    }
 }

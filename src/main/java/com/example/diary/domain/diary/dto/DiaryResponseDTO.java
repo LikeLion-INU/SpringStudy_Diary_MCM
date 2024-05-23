@@ -21,6 +21,7 @@ public class DiaryResponseDTO {
         private DiaryType diaryType;
         private String diaryWeather;
         private List<String> diaryImages; // 이미지 URL 목록을 저장할 필드 추가
+        private Integer like;
 
         public DiaryCreateDTO(Diary diary, List<String> diaryImages) {
             this.diaryId = diary.getId();
@@ -29,6 +30,7 @@ public class DiaryResponseDTO {
             this.diaryType = diary.getDiaryType();
             this.diaryWeather = diary.getDiaryWeather();
             this.diaryImages = diaryImages; // 생성자를 통해 이미지 URL 목록 초기화
+            this.like = 0;
         }
     }
     @Data

@@ -1,5 +1,6 @@
 package com.example.diary.domain.diary.entity;
 
+import com.example.diary.domain.likes.entity.Likes;
 import com.example.diary.domain.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -20,6 +21,7 @@ public class Diary {
     @ManyToOne
     @JoinColumn(name="member_id")
     private Member member;
+    private Integer likeCount;
 
 
     protected Diary(){
@@ -45,5 +47,13 @@ public class Diary {
         this.diaryTitle = diary.getDiaryTitle();
         this.diaryContent = diary.getDiaryContent();
         this.diaryType = diary.getDiaryType();
+    }
+
+    public void increaseLike(){
+        this.likeCount++;
+    }
+
+    public void decreaseLike(){
+        this.likeCount--;
     }
 }
