@@ -12,9 +12,11 @@ public class Likes {
     @GeneratedValue
     @Column(name = "likes_id")
     private Long id; // 고유 식별자
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "diary_id")
     private Diary diary;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
