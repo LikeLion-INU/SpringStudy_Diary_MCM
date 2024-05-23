@@ -49,7 +49,7 @@ public class MemberController {
     public ResponseEntity<?> findOne(HttpSession session) {
         try {
             log.info("[MemberController] login");
-            Object userEmail = session.getAttribute("userEmail");
+            Object userEmail = session.getAttribute("memberEmail");
             return ResponseEntity.ok().body(ApiResponse.SUCCESS(HttpStatus.CREATED.value(), "[SUCCESS] MemberController join", userEmail));
         }  catch (Exception500 e) {
             log.info("[Exception500] MemberController login");
