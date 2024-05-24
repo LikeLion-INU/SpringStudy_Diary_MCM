@@ -55,7 +55,6 @@ public class DiaryServiceImpl implements DiaryService {
             throw new CustomException(ErrorCode.USER_NOT_FOUND);
         }
         Member member = optionalMember.get();
-
         Diary diary = new Diary(diaryCreateDTO.getDiaryTitle(), diaryCreateDTO.getDiaryContent(), diaryWeather, diaryCreateDTO.getDiaryType(), member);
         diaryRepository.save(diary);
 

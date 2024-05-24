@@ -30,7 +30,7 @@ public class DiaryResponseDTO {
             this.diaryType = diary.getDiaryType();
             this.diaryWeather = diary.getDiaryWeather();
             this.diaryImages = diaryImages; // 생성자를 통해 이미지 URL 목록 초기화
-            this.like = 0;
+            this.like = diary.getLikeCount();
         }
     }
     @Data
@@ -55,6 +55,7 @@ public class DiaryResponseDTO {
     private DiaryType diaryType;
     private String diaryWeather;
     private List<String> diaryImages;
+    private Integer likeCount;
         public DiaryFindOneDTO(Diary diary, List<String> diaryImages) {
             this.diaryId = diary.getId();
             this.diaryTitle = diary.getDiaryTitle();
@@ -62,6 +63,7 @@ public class DiaryResponseDTO {
             this.diaryType = diary.getDiaryType();
             this.diaryWeather = diary.getDiaryWeather();
             this.diaryImages = diaryImages;
+            this.likeCount = diary.getLikeCount();
         }
     }
 }

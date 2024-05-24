@@ -32,6 +32,7 @@ public class Diary {
         this.diaryContent = diaryContent;
         this.diaryType = diaryType;
         this.member = member;
+        this.likeCount = 0;
     }
 
 
@@ -41,6 +42,7 @@ public class Diary {
         this.diaryWeather = diaryWeather;
         this.diaryType = diaryType;
         this.member = member;
+        this.likeCount = 0;
     }
 
     public void patch(Diary diary){
