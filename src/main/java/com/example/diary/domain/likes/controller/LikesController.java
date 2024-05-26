@@ -19,6 +19,7 @@ public class LikesController {
     public ResponseEntity<?> addLike(@RequestBody LikesDTO likesDTO){
         Integer result = likesService.addLike(likesDTO);
         return ResponseEntity.ok().body(result);
+
     }
 
     @PostMapping("/diary/unlikes")
